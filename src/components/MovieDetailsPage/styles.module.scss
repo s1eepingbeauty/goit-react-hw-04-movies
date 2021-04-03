@@ -1,0 +1,45 @@
+.backBtn {
+    width: 80px;
+    padding: 2px;
+    border-radius: 4px;
+    border: 1px solid;
+    color: white;
+    background-color: rgb(9, 9, 136);
+
+    &:hover,&:focus {
+        background-color: rgb(16, 16, 177);
+    }
+}
+
+.movieContainer {
+    display: flex;
+    align-items: flex-start;
+    margin: 20px;
+}
+
+.imgContainer {
+    margin-right: 20px;
+}
+
+.imgContainer img {
+    width: 300px;
+    height: 100%;
+}
+
+.movieInfoContainer {
+    margin: 30px;
+    text-align: justify;
+}
+
+.infoLinks a {
+    font-weight: 500;
+    color: rgb(9, 9, 136);
+    &:hover, &:focus,&:active {
+        color:rgb(76, 76, 245);
+    }
+}
+
+h1, h2, h3, h4 {
+    margin-top: 20px;
+    margin-bottom: 5px;
+}

@@ -1,0 +1,22 @@
+.searchBar {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.searchBtn {
+    margin-left: 10px;
+    padding         : 3px 10px;
+    border-radius   : 4px;
+    border          : 1px solid;
+    color           : white;
+    background-color: rgb(9, 9, 136);
+
+    &:hover,
+    &:focus {
+        background-color: rgb(16, 16, 177);
+    }
+}
+
+.movieList {
+    
+}

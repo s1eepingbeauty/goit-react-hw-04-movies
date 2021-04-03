@@ -1,0 +1,14 @@
+.container {
+    margin: 20px;
+}
+
+.movieList a {
+    font-weight: 500;
+    color      : rgb(9, 9, 136);
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: rgb(76, 76, 245);
+    }
+}
