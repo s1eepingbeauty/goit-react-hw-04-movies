@@ -65,16 +65,24 @@ const MovieDetailsPage = () => {
         setReviewsList(<p>There are no reviews for this movie...</p>);
         return;
       }
+
+      const prepareAvatarURL = (avatar) => {
+          if (!avatar) {
+            return IMAGES_PLACEHOLDER_URL.defaultImgURL;
+          }
+          else if (avatar.slice(1, 5) === 'http') {
+            return avatar.slice(1, avatar.length);
+          }
+          else {
+            return IMAGES_PLACEHOLDER_URL.baseImgURL + avatar;
+          }
+      }
+
       setReviewsList(
         result.map(({ id, author_details, content }) => {
           const name = author_details.username;
           const avatar = author_details.avatar_path;
-          let img;
-          if (avatar) {
-            img = IMAGES_PLACEHOLDER_URL.baseImgURL + avatar;
-          } else {
-            img = IMAGES_PLACEHOLDER_URL.defaultImgURL;
-          }
+          const img = prepareAvatarURL(avatar);
           return (
             <li key={id}>
               <img src={img} alt="" width="50" />
