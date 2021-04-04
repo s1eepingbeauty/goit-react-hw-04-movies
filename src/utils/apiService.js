@@ -1,10 +1,13 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://api.themoviedb.org/3';
+import { PAGES, REQUEST_KEYWORDS} from './CONSTANTS';
 
-const apiKey = 'e3b066e22b25d00eb414002518baafe2';
+axios.defaults.baseURL = 'https://api.themoviedb.org/3';
+axios.defaults.params = {
+  'api_key': 'e3b066e22b25d00eb414002518baafe2',
+};
 
 const popularMovies = () => {
-  const url = `/trending/movie/week?api_key=${apiKey}`;
+  const url = `/trending/movie/week`;
   return axios
     .get(url)
     .then((results) => results.data.results)
@@ -12,31 +15,29 @@ const popularMovies = () => {
 };
 
 const searchMovies = (searchQuery) => {
-  const url = `search/movie?query=${encodeURIComponent(searchQuery)}&api_key=${apiKey}`;
+  const url = `search/movie?query=${encodeURIComponent(searchQuery)}`;
   return axios
     .get(url)
     .then((response) => response.data.results)
     .catch((error) => console.log(error));
 };
 
-const movieDatails = (movieId, endpoint) => {
-  let url = `/movie/${movieId}`;
+const getMovieDetailsEndpoint = (movieId, endpoint) => {
   switch (endpoint) {
-    case 'cast':
-      url += `/credits?api_key=${apiKey}`;
-      break;
-    case 'reviews':
-      url += `/reviews?api_key=${apiKey}`;
-      break;
+    case REQUEST_KEYWORDS.cast:
+      return `${PAGES.movie}${movieId}${PAGES.credits}`;
+    case REQUEST_KEYWORDS.reviews:
+      return `${PAGES.movie}${movieId}${PAGES.reviews}`;
     default:
-      url += `?api_key=${apiKey}`;
-      break;
+      return `${PAGES.movie}${movieId}`;
   }
-  //console.log(url);
+}
+
+const movieDetails = (url) => {
   return axios
     .get(url)
     .then((results) => results.data)
     .catch((error) => console.log(error));
 };
 
-export { popularMovies, searchMovies, movieDatails };
+export { popularMovies, searchMovies, getMovieDetailsEndpoint, movieDetails };

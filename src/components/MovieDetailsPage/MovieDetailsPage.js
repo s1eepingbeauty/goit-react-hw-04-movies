@@ -9,7 +9,8 @@ import {
 } from 'react-router-dom';
 import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews';
-import { movieDatails } from '../../utils/apiService.js';
+import { REQUEST_KEYWORDS, IMAGES_PLACEHOLDER_URL } from '../../utils/CONSTANTS';
+import { getMovieDetailsEndpoint, movieDetails } from '../../utils/apiService.js';
 import styles from './styles.module.scss';
 
 const MovieDetailsPage = () => {
@@ -21,8 +22,8 @@ const MovieDetailsPage = () => {
   const [reviewsList, setReviewsList] = useState('');
 
   useEffect(() => {
-    movieDatails(movieId).then(({ poster_path, title, vote_average, overview, genres }) => {
-      const img = `https://image.tmdb.org/t/p/w500${poster_path}`;
+    movieDetails(getMovieDetailsEndpoint(movieId)).then(({ poster_path, title, vote_average, overview, genres }) => {
+      const img = `${IMAGES_PLACEHOLDER_URL.baseImgURL}${poster_path}`;
       const userScore = vote_average * 10;
       const genresList = genres.reduce((genre, { name }) => `${genre} ${name}`, '');
       setMovieAbout({
@@ -33,7 +34,7 @@ const MovieDetailsPage = () => {
         genresList,
       });
     });
-    movieDatails(movieId, 'cast').then((data) => {
+    movieDetails(getMovieDetailsEndpoint(movieId, REQUEST_KEYWORDS.cast)).then((data) => {
       const result = data.cast;
       if (result.length === 0) {
         setCastList(<p>There are no information about cast for this movie...</p>);
@@ -43,9 +44,9 @@ const MovieDetailsPage = () => {
         result.map(({ id, name, profile_path, character }) => {
           let img;
           if (profile_path) {
-            img = `https://image.tmdb.org/t/p/w200${profile_path}`;
+            img = IMAGES_PLACEHOLDER_URL.baseImgURL + profile_path;
           } else {
-            img = 'https://exceleratelabs.com/wp-content/uploads/2017/08/default-user.png';
+            img = IMAGES_PLACEHOLDER_URL.defaultImgURL;
           }
           return (
             <li key={id}>
@@ -58,7 +59,7 @@ const MovieDetailsPage = () => {
       );
     });
 
-    movieDatails(movieId, 'reviews').then((data) => {
+    movieDetails(getMovieDetailsEndpoint(movieId, REQUEST_KEYWORDS.reviews)).then((data) => {
       const result = data.results;
       if (result.length === 0) {
         setReviewsList(<p>There are no reviews for this movie...</p>);
@@ -70,9 +71,9 @@ const MovieDetailsPage = () => {
           const avatar = author_details.avatar_path;
           let img;
           if (avatar) {
-            img = `https://image.tmdb.org/t/p/w500${avatar}`;
+            img = IMAGES_PLACEHOLDER_URL.baseImgURL + avatar;
           } else {
-            img = 'https://exceleratelabs.com/wp-content/uploads/2017/08/default-user.png';
+            img = IMAGES_PLACEHOLDER_URL.defaultImgURL;
           }
           return (
             <li key={id}>
